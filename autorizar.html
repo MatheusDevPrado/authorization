@@ -6,118 +6,119 @@
     <title>Autorização para Menores</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f4f4f4;
-            position: relative;
-        }
-        .container {
-            position: relative;
+            padding: 20px;
             text-align: center;
         }
-        .form-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
+        .container {
+            width: 40%;
+            margin:  auto;
+            margin-top: 100px;
+            margin-bottom: 100px;
+            text-align: left;
         }
-        .input-field {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid #000;
-            padding: 5px;
+        input {
+            border: none;
+            border-bottom: 2px solid black;
+            width: 60%;
+            outline: none;
+            text-align: center;
             font-size: 16px;
-            pointer-events: auto;
         }
-        img {
+        #ass-name {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .rubrica {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 20px;
+        }
+        .header img, .footer img {
             width: 100%;
-            max-width: 800px;
-            border: 2px solid #000;
-            border-radius: 10px;
-            background: #fff;
-            padding: 10px;
+            max-width: 600px;
         }
         button {
-            position: absolute;
-            bottom: 300px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
+            position: relative;
+            margin-top: 15px;
+            padding: 12px;
             background-color: rgb(102, 206, 102);
             color: white;
             border: none;
             cursor: pointer;
             font-size: 16px;
-            font-family: Arial, Helvetica, sans-serif;
+            width: 90%;
+            max-width: 300px;
             border-radius: 5px;
             pointer-events: auto;
         }
         button:hover {
             background-color: rgb(80, 170, 80);
         }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+        @media (max-width: 480px) {
+            input {
+                font-size: 12px;
+                padding: 6px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .container {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="WhatsApp Image 2025-03-22 at 22.18.22.jpeg" alt="Autorização para menores de 18 anos">
-        <div class="form-overlay">
-            <form id="formAutorizacao">
-                <input type="text" class="input-field" style="top: 219px; left: 100px; width: 543px; border: initial;" placeholder=" ">
-                <input type="text" class="input-field" style="top: 253px; left: 17%; width: 300px; height: 15px; border: initial;" placeholder=" ">
-                <input type="text" class="input-field" style="top: 281px; left: 8%; width: 580px; height: 15px; border: initial;" placeholder=" ">
-                <input type="text" class="input-field" style="top: 310px; left: 18%; width: 235px; height: 15px; border: initial;" placeholder=" ">
-                <input type="text" class="input-field" style="top: 424px; left: 23%; width: 310px; border: initial" placeholder=" ">
-                <input type="text" class="input-field" style="top: 513px; left: 30%; width: 340px; border: initial;" placeholder=" ">
-                <button type="submit" id="enviarBtn">Enviar</button>
-            </form>
-        </div>
+    <div class="header">
+        <img src="cabecalho.png" alt="Cabeçalho">
     </div>
-
+    
+    <div class="container">
+        <p>Eu, <input type="text" placeholder="">, portador do CPF n.º <input type="text" placeholder=""> responsável legal pelo(a) adolescente <input type="text" placeholder="">, portador(a) do RG n.º <input type="text" placeholder="">, autorizo o mesmo a participar do acampamento <b>“Kadima”</b>, que ocorrerá na Chácara Campeão, localizada na Estrada das Garças, n.º 780, Pq. Das Garças, Santo André, SP, que será realizado nos dias 18, 19 e 20 de abril de 2025.</p>
+        
+        <p>TEL para contato: <input type="text" placeholder=""></p>
+        
+        <p id="ass-name"><input class="rublica" type="text" placeholder=""><br>Assinatura do responsável</p>
+        <button type="submit" id="enviarBtn">Enviar</button>
+    </div>
+    <div class="footer">
+        <img src="footer.png" alt="Rodapé">
+    </div>
     <script>
-        document.getElementById("formAutorizacao").addEventListener("submit", function(event) {
-            event.preventDefault(); // Impede o recarregamento da página
-            
-            let formData = new FormData(this);
-
-            fetch("enviar.php", {
+        document.getElementById("enviarBtn").addEventListener("click", function() {
+            const inputs = document.querySelectorAll("input");
+            const dados = {};
+    
+            inputs.forEach((input, index) => {
+                dados[`campo${index + 1}`] = input.value;
+            });
+    
+            fetch("http://localhost:3000/enviar-email", {
                 method: "POST",
-                body: formData
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                if (data === "success") {
-                    alert("Autorização enviada com sucesso!");
-
-                    // Esconde o botão antes de imprimir
-                    document.getElementById("enviarBtn").classList.add("hidden");
-
-                    // Imprime automaticamente
-                    window.print();
-
-                    // Redireciona para a página de sucesso após a impressão
-                    setTimeout(() => {
-                        window.location.href = "sucesso.html";
-                    }, 2000);
+                if (data.mensagem === "E-mail enviado com sucesso!") {
+                    window.location.href = "sucesso.html"; // Redireciona após sucesso
                 } else {
                     alert("Erro ao enviar. Tente novamente.");
                 }
             })
-            .catch(error => console.error("Erro:", error));
+            .catch(error => {
+                console.error("Erro ao enviar:", error);
+                alert("Erro ao enviar. Verifique sua conexão e tente novamente.");
+            });
         });
-
-        // Impede que o usuário volte para a página de autorização
-        window.history.pushState(null, "", window.location.href);
-        window.onpopstate = function () {
-            window.history.pushState(null, "", window.location.href);
-        };
-    </script>
+    </script>            
 </body>
 </html>
