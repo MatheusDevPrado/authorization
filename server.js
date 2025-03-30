@@ -5,20 +5,21 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const cors = require('cors');
-app.use(cors({
-    origin: "https://matheusdevprado.github.io",  // Permite requisições do GitHub Pages
-    methods: "GET, POST, OPTIONS",
-    allowedHeaders: "Content-Type"
-}));
+const express = require('express');
 
-// Responder manualmente a requisições OPTIONS (preflight)
-app.options("*", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "https://matheusdevprado.github.io");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.sendStatus(200);
+const app = express();
+
+// Permitir requisições apenas do seu frontend
+app.use(cors({ origin: 'https://matheusdevprado.github.io' }));
+
+// Permitir todas as origens (⚠️ só para testes)
+app.use(cors());
+
+app.use(express.json());
+
+app.post('/enviar-email', (req, res) => {
+    res.json({ message: 'E-mail enviado com sucesso!' });
 });
- app.use(cors());
 
 app.post("/enviar-email", async (req, res) => {
     const dados = req.body;
