@@ -91,7 +91,7 @@
         <img src="footer.png" alt="Rodapé">
     </div>
     <script>
-        document.getElementById("enviarBtn").addEventListener("click", function() {
+            document.getElementById("enviarBtn").addEventListener("click", function() {
             const inputs = document.querySelectorAll("input");
             const dados = {};
     
@@ -99,7 +99,7 @@
                 dados[`campo${index + 1}`] = input.value;
             });
     
-            fetch("http://localhost:3000/enviar-email", {
+            fetch("https://SEU_SERVIDOR_ON_RENDER.onrender.com/enviar-email", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -108,17 +108,16 @@
             })
             .then(response => response.json())
             .then(data => {
+                alert(data.mensagem);
                 if (data.mensagem === "E-mail enviado com sucesso!") {
-                    window.location.href = "sucesso.html"; // Redireciona após sucesso
-                } else {
-                    alert("Erro ao enviar. Tente novamente.");
+                    window.location.href = "sucesso.html";
                 }
             })
             .catch(error => {
                 console.error("Erro ao enviar:", error);
-                alert("Erro ao enviar. Verifique sua conexão e tente novamente.");
             });
         });
-    </script>            
+    </script>
+
 </body>
 </html>
