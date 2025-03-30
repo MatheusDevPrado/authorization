@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-fetch("https://authorization-2-euf8.onrender.com", {
+fetch("https://authorization-2-euf8.onrender.com/enviar-email", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
