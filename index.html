@@ -94,29 +94,30 @@
             document.getElementById("enviarBtn").addEventListener("click", function() {
             const inputs = document.querySelectorAll("input");
             const dados = {};
-    
-            inputs.forEach((input, index) => {
-                dados[`campo${index + 1}`] = input.value;
+        
+                inputs.forEach((input, index) => {
+                    dados[`campo${index + 1}`] = input.value;
+                });
+            
+                fetch("https://seu-servidor.onrender.com/enviar-email", {  // 🛑 TROQUE PELO SEU DOMÍNIO!
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dados)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensagem);
+                    if (data.mensagem === "E-mail enviado com sucesso!") {
+                        window.location.href = "sucesso.html";
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao enviar:", error);
+                });
             });
-    
-            fetch("https://SEU_SERVIDOR_ON_RENDER.onrender.com/enviar-email", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(dados)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.mensagem);
-                if (data.mensagem === "E-mail enviado com sucesso!") {
-                    window.location.href = "sucesso.html";
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao enviar:", error);
-            });
-        });
+
     </script>
 
 </body>
