@@ -4,22 +4,16 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const cors = require('cors');
-const express = require('express');
-
 const app = express();
 
-// Permitir requisições apenas do seu frontend
-app.use(cors({ origin: 'https://matheusdevprado.github.io' }));
+// 🔹 Configurar CORS para permitir requisições do GitHub Pages
+app.use(cors({
+    origin: "https://matheusdevprado.github.io", // Substitua pelo seu domínio
+    methods: "GET,POST",
+    allowedHeaders: "Content-Type"
+}));
 
-// Permitir todas as origens (⚠️ só para testes)
-app.use(cors());
-
-app.use(express.json());
-
-app.post('/enviar-email', (req, res) => {
-    res.json({ message: 'E-mail enviado com sucesso!' });
-});
+app.use(bodyParser.json());
 
 app.post("/enviar-email", async (req, res) => {
     const dados = req.body;
@@ -55,4 +49,5 @@ app.post("/enviar-email", async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
