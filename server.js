@@ -23,7 +23,8 @@ app.post("/enviar-email", async (req, res) => {
         from: process.env.EMAIL_USER,
         to: "acampmjamis@gmail.com",
         subject: "Autorização para Menores - Formulário Recebido",
-        html: `<h3>Dados Recebidos:</h3>
+        html: `
+            <h3>Dados Recebidos:</h3>
             <p><strong>Nome:</strong> ${dados.campo1}</p>
             <p><strong>CPF:</strong> ${dados.campo2}</p>
             <p><strong>Adolescente:</strong> ${dados.campo3}</p>
