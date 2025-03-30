@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const app = express();
+const cors = require('cors');
 app.use(cors({
     origin: "https://matheusdevprado.github.io",  // Permite requisições do GitHub Pages
     methods: "GET, POST, OPTIONS",
