@@ -18,7 +18,7 @@ app.options("*", (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-Type");
     res.sendStatus(200);
 });
-
+ app.use(cors());
 
 app.post("/enviar-email", async (req, res) => {
     const dados = req.body;
