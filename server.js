@@ -6,13 +6,19 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors({
-    origin: "*",  // Permite requisições de qualquer origem (teste inicial)
-    methods: "GET,POST,OPTIONS",
+    origin: "https://matheusdevprado.github.io",  // Permite requisições do GitHub Pages
+    methods: "GET, POST, OPTIONS",
     allowedHeaders: "Content-Type"
 }));
 
-// Responder manualmente às requisições OPTIONS (preflight)
-app.options("*", cors());
+// Responder manualmente a requisições OPTIONS (preflight)
+app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", "https://matheusdevprado.github.io");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.sendStatus(200);
+});
+
 
 app.post("/enviar-email", async (req, res) => {
     const dados = req.body;
