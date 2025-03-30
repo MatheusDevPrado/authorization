@@ -99,23 +99,28 @@
                     dados[`campo${index + 1}`] = input.value;
                 });
             
-                fetch("https://authorization-2-euf8.onrender.com", {  // 🛑 TROQUE PELO SEU DOMÍNIO!
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dados)
+                fetch("https://authorization-2-euf8.onrender.com/enviar-email", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    campo1: "Nome Exemplo",
+                    campo2: "123.456.789-00",
+                    campo3: "Adolescente",
+                    campo4: "12.345.678-9",
+                    campo5: "(11) 98765-4321",
+                    campo6: "Assinatura Exemplo"
+                  })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.mensagem);
-                    if (data.mensagem === "E-mail enviado com sucesso!") {
-                        window.location.href = "sucesso.html";
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao enviar:", error);
-                });
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log("Sucesso:", data);
+                  })
+                  .catch((error) => {
+                    console.error("Erro:", error);
+                  });
+
             });
 
     </script>
