@@ -5,6 +5,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
+app.use(cors({
+  origin: "https://matheusdevprado.github.io", // Domínio correto do seu frontend
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type"
+}));
+
 
 fetch("https://authorization-2-euf8.onrender.com/enviar-email", {
   method: "POST",
