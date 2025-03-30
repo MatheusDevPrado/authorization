@@ -5,8 +5,14 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors({
+    origin: "*",  // Permite requisições de qualquer origem (teste inicial)
+    methods: "GET,POST,OPTIONS",
+    allowedHeaders: "Content-Type"
+}));
+
+// Responder manualmente às requisições OPTIONS (preflight)
+app.options("*", cors());
 
 app.post("/enviar-email", async (req, res) => {
     const dados = req.body;
