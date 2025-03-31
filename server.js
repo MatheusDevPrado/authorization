@@ -8,7 +8,7 @@ const app = express();
 
 // Configurar CORS para permitir requisições do seu frontend
 app.use(cors({
-  origin: "https://matheusdevprado.github.io", // Domínio correto do seu frontend
+  origin: "https://matheusdevprado.github.io", // Domínio coorreto do seu frontend
   methods: "GET,POST",
   allowedHeaders: "Content-Type"
 }));
